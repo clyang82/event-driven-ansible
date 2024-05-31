@@ -29,7 +29,7 @@ class AsyncIterator:
         if self.count < 2:
             mock = MagicMock()
             mock.value = f'{{"i": {self.count}}}'.encode("utf-8")
-            mock.headers = [
+            mock.meta.headers = [
                 (key, value.encode("utf-8"))
                 for key, value in json.loads('{"foo": "bar"}').items()
             ]
@@ -59,5 +59,8 @@ def test_receive_from_kafka_place_in_queue(myqueue):
                 },
             )
         )
-        assert myqueue.queue[0] == {"body": {"i": 0}, "headers": {"foo": "bar"}}
+        assert myqueue.queue[0] == {
+            "body": {"i": 0},
+            "meta": {"headers": {"foo": "bar"}},
+        }
         assert len(myqueue.queue) == 2
