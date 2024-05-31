@@ -29,7 +29,7 @@ class AsyncIterator:
         if self.count < 2:
             mock = MagicMock()
             mock.value = f'{{"i": {self.count}}}'.encode("utf-8")
-            mock.meta.headers = [
+            mock.headers = [
                 (key, value.encode("utf-8"))
                 for key, value in json.loads('{"foo": "bar"}').items()
             ]
